@@ -71,30 +71,53 @@ class SlikReaderService {
         }
 
         // 4. Store PDF file safely
-        $uploadDir = __DIR__ . '/../../storage/uploads/private/' . $leadId;
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
         $fileExt = pathinfo($fileInfo['name'], PATHINFO_EXTENSION);
         $storedFileName = uniqid('slik_') . '.' . $fileExt;
-        $targetFilePath = $uploadDir . '/' . $storedFileName;
         $relativePath = 'private/' . $leadId . '/' . $storedFileName;
+        $fileId = 'SR' . date('Ymd') . str_pad((string)mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 
-        if (!move_uploaded_file($fileInfo['tmp_name'], $targetFilePath)) {
-            // Fallback for direct CLI / testing file copy
-            if (!copy($fileInfo['tmp_name'], $targetFilePath)) {
+        $db = \App\Storage\Database::getInstance();
+
+        if ($db->isUsingPostgres()) {
+            // Production (e.g. Vercel): serverless filesystem is read-only,
+            // so the uploaded file's bytes are persisted directly in Postgres.
+            // The parser still reads from PHP's own upload tmp file, which is
+            // a real, readable file for the duration of this single request.
+            $binaryContent = file_get_contents($fileInfo['tmp_name']);
+            if ($binaryContent === false) {
                 return [
                     'success' => false,
                     'http' => 500,
                     'code' => 5000,
-                    'message' => 'Gagal menyimpan file upload',
+                    'message' => 'Gagal membaca file upload',
                     'data' => null
                 ];
+            }
+            $db->saveFile($fileId, $binaryContent, 'application/pdf');
+            $targetFilePath = $fileInfo['tmp_name'];
+        } else {
+            $uploadDir = __DIR__ . '/../../storage/uploads/private/' . $leadId;
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $targetFilePath = $uploadDir . '/' . $storedFileName;
+
+            if (!move_uploaded_file($fileInfo['tmp_name'], $targetFilePath)) {
+                // Fallback for direct CLI / testing file copy
+                if (!copy($fileInfo['tmp_name'], $targetFilePath)) {
+                    return [
+                        'success' => false,
+                        'http' => 500,
+                        'code' => 5000,
+                        'message' => 'Gagal menyimpan file upload',
+                        'data' => null
+                    ];
+                }
             }
         }
 
         // 5. Register in v_backoffice_files_slik
-        $fileId = $this->fileRepo->saveFileRecord($leadId, 'SLIK_' . $subjectType, $relativePath);
+        $this->fileRepo->saveFileRecord($leadId, 'SLIK_' . $subjectType, $relativePath, $fileId);
 
         // 6. Parse PDF
         try {
@@ -128,7 +151,9 @@ class SlikReaderService {
 
             // Roll back the uploaded file so the subject stays clear (no REJECTED result persisted)
             $this->fileRepo->deleteFileRecord($fileId);
-            if (is_file($targetFilePath)) {
+            if ($db->isUsingPostgres()) {
+                $db->deleteFile($fileId);
+            } elseif (is_file($targetFilePath)) {
                 unlink($targetFilePath);
             }
 
@@ -439,6 +464,21 @@ class SlikReaderService {
             return null;
         }
 
+        $db = \App\Storage\Database::getInstance();
+
+        if ($db->isUsingPostgres()) {
+            $file = $db->getFile($fileId);
+            if (!$file) {
+                return null;
+            }
+            return [
+                'mode' => 'content',
+                'content' => $file['content'],
+                'content_type' => $file['content_type'] ?: 'application/pdf',
+                'name' => $fileRecord['name'] ?? 'dokumen_slik.pdf'
+            ];
+        }
+
         $relativePath = $fileRecord['path'] ?? '';
         $absolutePath = realpath(__DIR__ . '/../../storage/uploads/' . $relativePath);
 
@@ -450,6 +490,7 @@ class SlikReaderService {
         }
 
         return [
+            'mode' => 'path',
             'path' => $absolutePath,
             'filename' => basename($relativePath),
             'name' => $fileRecord['name'] ?? 'dokumen_slik.pdf'

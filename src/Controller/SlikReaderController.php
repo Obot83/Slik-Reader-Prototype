@@ -100,8 +100,24 @@ class SlikReaderController {
 
     public function handleDownloadFile(string $fileId): void {
         $fileInfo = $this->slikService->getDownloadFileInfo($fileId);
-        if (!$fileInfo || !file_exists($fileInfo['path'])) {
-            // Generate on the fly if dummy / sample
+        if (!$fileInfo) {
+            header('Content-Type: text/plain');
+            http_response_code(404);
+            echo "File not found or unauthorized";
+            exit;
+        }
+
+        if (($fileInfo['mode'] ?? '') === 'content') {
+            // Production (Postgres/Vercel): binary content stored in the database
+            header('Content-Type: ' . $fileInfo['content_type']);
+            header('Content-Disposition: inline; filename="' . $fileInfo['name'] . '.pdf"');
+            header('Content-Length: ' . strlen($fileInfo['content']));
+            header('Cache-Control: private, max-age=0, must-revalidate');
+            echo $fileInfo['content'];
+            exit;
+        }
+
+        if (!file_exists($fileInfo['path'])) {
             header('Content-Type: text/plain');
             http_response_code(404);
             echo "File not found or unauthorized";
@@ -373,6 +389,7 @@ class SlikReaderController {
 
         $resultRepo = new SlikReaderResultRepository();
         $fileRepo = new SlikFileRepository();
+        $db = \App\Storage\Database::getInstance();
         $deletedCount = 0;
 
         if ($resetAll) {
@@ -383,6 +400,7 @@ class SlikReaderController {
             $files = $fileRepo->getFilesByLead($leadId);
             foreach ($files as $f) {
                 $fileRepo->deleteFileRecord($f['_id']);
+                $db->deleteFile($f['_id']);
             }
         } else {
             // Delete only specific subject type
@@ -403,6 +421,7 @@ class SlikReaderController {
             foreach ($files as $f) {
                 if ($f['name'] === $targetFileName) {
                     $fileRepo->deleteFileRecord($f['_id']);
+                    $db->deleteFile($f['_id']);
                 }
             }
         }
