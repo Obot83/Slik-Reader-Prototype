@@ -1,6 +1,6 @@
 {
   "functions": {
-    "public/index.php": {
+    "api/index.php": {
       "runtime": "vercel-php@0.9.0"
     }
   },
@@ -9,6 +9,6 @@
     { "src": "/app.css", "dest": "/public/app.css" },
     { "src": "/index.html", "dest": "/public/index.html" },
     { "src": "/mobile_surveyor.html", "dest": "/public/mobile_surveyor.html" },
-    { "src": "/(.*)", "dest": "/public/index.php" }
+    { "src": "/(.*)", "dest": "/api/index.php" }
   ]
 }
