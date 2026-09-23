@@ -97,6 +97,39 @@ if (strpos($requestUri, '/backoffice') === 0) {
 }
 $path = rtrim($path, '/') ?: '/';
 
+// TEMPORARY DIAGNOSTIC ROUTE — safe to leave briefly, exposes only env VAR
+// NAMES (never values) to debug why DATABASE_URL isn't being detected.
+// Remove once the storage-mode issue is confirmed fixed.
+if ($method === 'GET' && $path === '/debug/env') {
+    header('Content-Type: application/json; charset=utf-8');
+    $envKeys = array_keys($_ENV);
+    $serverKeys = array_filter(array_keys($_SERVER), function ($k) {
+        return !in_array($k, ['argv', 'argc']) && strtoupper($k) === $k;
+    });
+    sort($envKeys);
+    sort($serverKeys);
+
+    $checkedNames = ['DATABASE_URL', 'POSTGRES_URL', 'PRISMA_DATABASE_URL'];
+    $checkResults = [];
+    foreach ($checkedNames as $name) {
+        $checkResults[$name] = [
+            'getenv' => getenv($name) !== false,
+            '_ENV' => isset($_ENV[$name]),
+            '_SERVER' => isset($_SERVER[$name]),
+        ];
+    }
+
+    echo json_encode([
+        'php_sapi' => php_sapi_name(),
+        'php_version' => PHP_VERSION,
+        'checked_variable_names' => $checkResults,
+        'all_env_var_names' => array_values($envKeys),
+        'all_server_var_names_uppercase' => array_values($serverKeys),
+        'database_currently_using_postgres' => \App\Storage\Database::getInstance()->isUsingPostgres(),
+    ], JSON_PRETTY_PRINT);
+    exit;
+}
+
 $controller = new SlikReaderController();
 
 // 1. POST /leads/upload/credit-checking
