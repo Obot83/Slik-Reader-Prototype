@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Surveyor Mobile App - Credit Checking (SLIK Reader)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-red: #b91c1c;
+      --primary-burgundy: #991b1b;
+      --header-bg: #a81c24;
+      --header-bg-gradient: linear-gradient(180deg, #991b1b 0%, #b91c1c 100%);
+      --bg-canvas: #f1f5f9;
+      --bg-mobile: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --border-color: #e2e8f0;
+      --border-light: #f1f5f9;
+      --success-green: #10b981;
+      --success-bg: #ecfdf5;
+      --warning-amber: #f59e0b;
+      --warning-bg: #fef3c7;
+      --danger-red: #ef4444;
+      --danger-bg: #fee2e2;
+      --kol-1: #10b981;
+      --kol-2: #f59e0b;
+      --kol-3: #ef4444;
+      --kol-5: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #1e293b;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+    }
+
+    /* Outer Device Mockup Container */
+    .device-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .device-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .device-badge {
+      background: #334155;
+      color: #e2e8f0;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 11.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .device-badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    /* Mobile Frame */
+    .mobile-frame {
+      width: 100%;
+      max-width: 412px;
+      height: 890px;
+      background: var(--bg-mobile);
+      border-radius: 36px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 10px #334155;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Mobile Status Bar */
+    .mobile-statusbar {
+      height: 38px;
+      background: #991b1b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 50;
+    }
+
+    .statusbar-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Mobile Header Nav */
+    .mobile-header {
+      background: #991b1b;
+      padding: 10px 16px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      z-index: 40;
+    }
+
+    .btn-back {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-title-box {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.2px;
+    }
+
+    /* Scrollable App Body */
+    .mobile-content {
+      flex: 1;
+      overflow-y: auto;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 90px;
+      position: relative;
+    }
+
+    /* Top Red Curved Background */
+    .hero-banner-bg {
+      background: linear-gradient(180deg, #991b1b 0%, #b91c1c 70%, #f8fafc 100%);
+      height: 90px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    /* Floating Debitur Profile Card */
+    .profile-card {
+      position: relative;
+      z-index: 10;
+      background: white;
+      margin: 8px 16px 16px;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      border: 1px solid #f1f5f9;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .profile-avatar {
+      width: 44px;
+      height: 44px;
+      background: #0284c7;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .profile-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .profile-id {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .profile-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 1px dashed #e2e8f0;
+      padding-top: 10px;
+    }
+
+    .profile-bullets li {
+      font-size: 12px;
+      color: #334155;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .profile-bullets li::before {
+      content: '•';
+      color: var(--primary-burgundy);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .profile-bullets strong {
+      color: var(--text-main);
+    }
+
+    /* Main Category Navigation Tabs */
+    .category-tabs {
+      background: white;
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 16px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .cat-tab {
+      flex: 1;
+      padding: 12px 6px;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-bottom: 2.5px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .cat-tab.active {
+      color: var(--text-main);
+      font-weight: 700;
+      border-bottom-color: var(--primary-burgundy);
+    }
+
+    .tab-check-icon {
+      width: 15px;
+      height: 15px;
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    /* Sub Tabs (DATA PEMOHON vs DATA PASANGAN) */
+    .sub-tabs {
+      background: white;
+      display: flex;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 12px;
+    }
+
+    .sub-tab {
+      flex: 1;
+      padding: 10px 4px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .sub-tab.active {
+      color: var(--primary-burgundy);
+      border-bottom-color: var(--primary-burgundy);
+    }
+
+    /* Accordion Components */
+    .accordion-section {
+      background: white;
+      margin: 0 14px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .accordion-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: white;
+      user-select: none;
+    }
+
+    .accordion-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .accordion-arrow {
+      transition: transform 0.2s ease;
+      color: var(--text-muted);
+    }
+
+    .accordion-section.collapsed .accordion-arrow {
+      transform: rotate(180deg);
+    }
+
+    .accordion-section.collapsed .accordion-content {
+      display: none;
+    }
+
+    .accordion-content {
+      padding: 0 16px 16px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    /* Hasil Report SLIK Reader: scrollable internally so long facility lists
+       don't push the whole mobile page down indefinitely */
+    #slikReportContent {
+      max-height: 60vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-top: 12px;
+    }
+
+    #slikReportContent::-webkit-scrollbar {
+      width: 5px;
+    }
+    #slikReportContent::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 99px;
+    }
+    #slikReportContent::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Data Rows */
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 12.5px;
+      border-bottom: 1px solid #f8fafc;
+    }
+
+    .data-row:last-child {
+      border-bottom: none;
+    }
+
+    .data-label {
+      color: var(--text-muted);
+    }
+
+    .data-value {
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: right;
+    }
+
+    /* ========================================================= */
+    /* NEW FEATURE SECTION: HASIL REPORT SLIK READER MOBILE UX   */
+    /* ========================================================= */
+    .slik-highlight-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .slik-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slik-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-verified {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .kol-tag {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .kol-tag-1 { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .kol-tag-2 { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+    .kol-tag-3, .kol-tag-5 { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+    .slik-metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .metric-mini-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .metric-mini-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .metric-mini-val {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    /* Warning Banner for DPK / Tunggakan */
+    .alert-mobile {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .alert-mobile-warning {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+
+    /* Facility Mini List */
+    .facility-mini-item {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .facility-mini-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .facility-bank-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .facility-type-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .facility-mini-numbers {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      background: #f8fafc;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    /* Sparkline Matriks Kol 12 Bulan */
+    .spark-history {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    .spark-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dot-1 { background: #dcfce7; color: #166534; }
+    .dot-2 { background: #fef08a; color: #854d0e; }
+    .dot-5 { background: #fecaca; color: #991b1b; }
+
+    /* Bottom Sticky Action Bar */
+    .mobile-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border-color);
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+      z-index: 60;
+    }
+
+    .btn-submit-mobile {
+      width: 100%;
+      height: 48px;
+      background: #b91c1c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.35);
+      transition: background 0.15s ease;
+    }
+
+    .btn-submit-mobile:hover {
+      background: #991b1b;
+    }
+
+    /* Switcher bar on top */
+    .switcher-bar {
+      background: #334155;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-switch {
+      background: #475569;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-switch.active {
+      background: #0284c7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="device-wrapper">
+    <!-- Controls to test different debtor scenarios -->
+    <div class="device-controls">
+      <div class="device-badge">Surveyor Mobile Viewport (Android / iOS)</div>
+    </div>
+
+    <!-- Mobile Device Frame -->
+    <div class="mobile-frame">
+      <!-- Status Bar -->
+      <div class="mobile-statusbar">
+        <span>09:41</span>
+        <div class="statusbar-icons">
+          <span>📶 4G</span>
+          <span>🔋 85%</span>
+        </div>
+      </div>
+
+      <!-- App Header Nav -->
+      <header class="mobile-header">
+        <button class="btn-back" onclick="alert('Kembali ke daftar penugasan surveyor')">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        </button>
+        <div class="header-title-box">
+          <div class="header-title" id="headerTitle">Budigstr Keudelplatz - D2026051000001</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Mobile Content -->
+      <main class="mobile-content">
+        <div class="hero-banner-bg"></div>
+
+        <!-- Debitur Summary Card -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar" id="debtorAvatar">B</div>
+            <div>
+              <div class="profile-name" id="debtorName">Budigstr Keudelplatz</div>
+              <div class="profile-id" id="debtorId">D2026051000001</div>
+            </div>
+          </div>
+          <ul class="profile-bullets">
+            <li>Pilihan produk pinjaman <strong id="debtorProduct">"KSP (Kredit Sertifikat Pribadi)"</strong></li>
+            <li>Plafon diajukan <strong id="debtorPlafond">Rp100,000,000</strong></li>
+            <li>Tenor diajukan <strong id="debtorTenor">48 BULAN</strong></li>
+          </ul>
+        </div>
+
+        <!-- Main Category Tabs -->
+        <div class="category-tabs">
+          <div class="cat-tab" onclick="alert('Tab Pengajuan')">
+            <span>Pengajuan</span>
+            <div class="tab-check-icon">✓</div>
+          </div>
+          <div class="cat-tab" onclick="alert('Tab Agunan')">
+            <span>Agunan</span>
+            <div class="tab-check-icon">✓</div>
+          </div>
+          <div class="cat-tab active">
+            <span>Credit Checking</span>
+          </div>
+        </div>
+
+        <!-- Sub Tabs (DATA PEMOHON / DATA PASANGAN / DATA PENJAMIN) -->
+        <div class="sub-tabs">
+          <div class="sub-tab active" id="subtab-pemohon" onclick="switchSubtab('pemohon')">DATA PEMOHON</div>
+          <div class="sub-tab" id="subtab-pasangan" onclick="switchSubtab('pasangan')">DATA PASANGAN</div>
+          <div class="sub-tab" id="subtab-penjamin" onclick="switchSubtab('penjamin')">DATA PENJAMIN</div>
+        </div>
+
+        <!-- 1. ACCORDION: RINGKASAN SKOR -->
+        <div class="accordion-section" id="acc-skor">
+          <div class="accordion-header" onclick="toggleAccordion('acc-skor')">
+            <div class="accordion-title">
+              <span>Ringkasan Skor</span>
+            </div>
+            <svg class="accordion-arrow" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+          </div>
+          <div class="accordion-content">
+            <div class="data-row">
+              <span class="data-label">Skor Generic</span>
+              <span class="data-value" id="scoreGeneric">-- Very Low</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Kolektibilitas Terburuk (SLIK)</span>
+              <span class="data-value" id="scoreWorstKol"><span class="kol-tag kol-tag-2">Kol 2 (DPK)</span></span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Indikasi Rekomendasi</span>
+              <span class="data-value" style="color:#d97706; font-weight:700;" id="scoreRecommendation">⚠️ Klarifikasi Tunggakan Lapangan</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- 2. ACCORDION BARU: HASIL REPORT SLIK READER OJK (RECOMMENDATION) -->
+        <!-- ============================================================== -->
+        <div class="accordion-section" id="acc-slik">
+          <div class="accordion-header" onclick="toggleAccordion('acc-slik')">
+            <div class="accordion-title">
+              <svg width="18" height="18" fill="none" stroke="#0284c7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Hasil Report SLIK Reader</span>
+              <span class="slik-status-badge status-verified" style="font-size:10px; padding:2px 6px;">OJK Verified</span>
+            </div>
+            <svg class="accordion-arrow" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+          </div>
+
+          <div class="accordion-content" id="slikReportContent">
+            <!-- Summary Highlights -->
+            <div class="slik-highlight-card">
+              <div class="slik-header-row">
+                <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Ringkasan Kewajiban Debitur</span>
+                <span class="kol-tag kol-tag-2" id="slikBadgeKol">Worst Kol 2</span>
+              </div>
+
+              <!-- Metrics Mini Grid -->
+              <div class="slik-metrics-grid">
+                <div class="metric-mini-card">
+                  <div class="metric-mini-label">Total Baki Debet</div>
+                  <div class="metric-mini-val" style="color:#0284c7;" id="slikTotalBaki">Rp 47.650.000</div>
+                </div>
+                <div class="metric-mini-card">
+                  <div class="metric-mini-label">Total Plafond</div>
+                  <div class="metric-mini-val" id="slikTotalPlafond">Rp 255.000.000</div>
+                </div>
+                <div class="metric-mini-card">
+                  <div class="metric-mini-label">Cicilan / Bulan</div>
+                  <div class="metric-mini-val" id="slikTotalAngsuran">Rp 3.090.000</div>
+                </div>
+                <div class="metric-mini-card">
+                  <div class="metric-mini-label">Fasilitas Pinjaman</div>
+                  <div class="metric-mini-val" id="slikCountFasilitas">2 Aktif &bull; 1 Lunas</div>
+                </div>
+              </div>
+
+              <!-- Warning Alert Box for Surveyor Field Verification -->
+              <div class="alert-mobile alert-mobile-warning" id="slikWarningAlert">
+                <span>⚠️</span>
+                <div>
+                  <strong>Perhatian Surveyor di Lapangan:</strong>
+                  <div style="margin-top:2px;">Terdapat tunggakan <strong>Rp 620.000 (28 hari)</strong> di BCA Kartu Kredit. Wajib klarifikasi sumber pelunasan saat wawancara debitur.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rincian Fasilitas Aktif (Cards) -->
+            <div style="margin-top:14px;">
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">
+                Fasilitas Pinjaman Terdeteksi (3)
+              </div>
+
+              <div id="facilitiesContainer">
+                <!-- Fasilitas 1: Bank Mandiri -->
+                <div class="facility-mini-item">
+                  <div class="facility-mini-header">
+                    <div>
+                      <div class="facility-bank-name">Bank Mandiri (Persero)</div>
+                      <div class="facility-type-sub">Modal Kerja / Usaha Mikro</div>
+                    </div>
+                    <span class="kol-tag kol-tag-1">Kol 1</span>
+                  </div>
+                  <div class="facility-mini-numbers">
+                    <span>Baki: <strong>Rp 35.250.000</strong></span>
+                    <span>Angsuran: <strong>Rp 1.850.000/bln</strong></span>
+                  </div>
+                  <div style="font-size:10.5px; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+                    <span>Riwayat 12 Bln:</span>
+                    <div class="spark-history">
+                      <span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span>
+                      <span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span>
+                      <span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fasilitas 2: BCA -->
+                <div class="facility-mini-item" style="border-left: 3px solid #f59e0b;">
+                  <div class="facility-mini-header">
+                    <div>
+                      <div class="facility-bank-name">Bank Central Asia (BCA)</div>
+                      <div class="facility-type-sub">Kartu Kredit (Revolving)</div>
+                    </div>
+                    <span class="kol-tag kol-tag-2">Kol 2 (DPK)</span>
+                  </div>
+                  <div class="facility-mini-numbers">
+                    <span>Baki: <strong style="color:#b45309;">Rp 12.400.000</strong></span>
+                    <span>Min. Bayar: <strong>Rp 1.240.000/bln</strong></span>
+                  </div>
+                  <div style="font-size:10.5px; color:#b45309; display:flex; justify-content:space-between; align-items:center;">
+                    <span>Tunggakan: <strong>Rp 620.000 (28 Hari)</strong></span>
+                    <div class="spark-history">
+                      <span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span>
+                      <span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-1">1</span>
+                      <span class="spark-dot dot-2">2</span><span class="spark-dot dot-2">2</span><span class="spark-dot dot-1">1</span><span class="spark-dot dot-2">2</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fasilitas 3: Adira Finance -->
+                <div class="facility-mini-item" style="opacity:0.8;">
+                  <div class="facility-mini-header">
+                    <div>
+                      <div class="facility-bank-name">Adira Dinamika Multi Finance</div>
+                      <div class="facility-type-sub">Kredit Kendaraan Bermotor (Mobil)</div>
+                    </div>
+                    <span class="kol-tag kol-tag-1" style="background:#f1f5f9; color:#475569; border-color:#cbd5e1;">Lunas</span>
+                  </div>
+                  <div class="facility-mini-numbers">
+                    <span>Plafond Awal: Rp 185.000.000</span>
+                    <span style="color:#059669; font-weight:700;">Status: Lunas (Kol 1)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action: Unduh Ringkasan SLIK -->
+            <button onclick="alert('Mengunduh Ringkasan SLIK OJK (PDF) untuk kebutuhan verifikasi fisik lapangan...')" style="width:100%; margin-top:12px; padding:8px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; color:#1d4ed8; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer;">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              Unduh Dokumen Hasil SLIK (PDF)
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Bottom Sticky Action Button -->
+      <div class="mobile-bottom-bar">
+        <button class="btn-submit-mobile" onclick="handleContinueProcess()">
+          <span>Lanjutkan Proses Survey</span>
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleAccordion(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('collapsed');
+    }
+
+    function switchSubtab(type) {
+      document.getElementById('subtab-pemohon').classList.toggle('active', type === 'pemohon');
+      document.getElementById('subtab-pasangan').classList.toggle('active', type === 'pasangan');
+      document.getElementById('subtab-penjamin').classList.toggle('active', type === 'penjamin');
+
+      const subjectMap = { 'pemohon': 'PEMOHON', 'pasangan': 'PASANGAN', 'penjamin': 'PENJAMIN' };
+      const subject = subjectMap[type];
+      currentSubject = subject;
+
+      // Refresh the SLIK Reader report content for the selected subject
+      renderSlikSummaryBySubject(subject);
+
+      // Keep the SLIK Reader accordion open so the result is visible right away
+      const acc = document.getElementById('acc-slik');
+      if (acc) acc.classList.remove('collapsed');
+    }
+
+    // Mapping lead IDs to API endpoints
+    const LEAD_MAPPING = {
+      'AMIR': 'D2026092201'
+    };
+
+    // Track current subject view
+    let currentSubject = 'PEMOHON';
+    let allSlikData = {};
+
+    // Format rupiah currency
+    function formatRupiah(num) {
+      if (!num) return 'Rp 0';
+      const juta = Math.round(num / 1000000);
+      return 'Rp ' + juta.toLocaleString('id-ID') + ' Juta';
+    }
+
+    // Get kolektibilitas color and badge class
+    function getKolClass(kualitas) {
+      if (!kualitas) return 'kol-tag-1';
+      if (kualitas.includes('1')) return 'kol-tag-1';
+      if (kualitas.includes('2')) return 'kol-tag-2';
+      return 'kol-tag-3';
+    }
+
+    // Fetch and render SLIK data for all subjects
+    async function fetchAndRenderSlikData(leadId) {
+      const API_BASE = window.location.origin;
+      try {
+        // Show loading state
+        const slidReportContent = document.getElementById('slikReportContent');
+        if (slidReportContent) {
+          slidReportContent.innerHTML = '<div style="padding: 16px; text-align: center; color: #94a3b8;">⏳ Memuat data SLIK...</div>';
+        }
+
+        const response = await fetch(API_BASE + '/leads/slik-reader/' + leadId, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'X-Tenant-Key': 'tenant-demo-sukma'
+          }
+        });
+
+        if (!response.ok) throw new Error('API request failed');
+        const result = await response.json();
+
+        if (result.error !== 0 || !result.data) {
+          throw new Error(result.message || 'No SLIK data available');
+        }
+
+        // Store full detail data for EVERY subject (PEMOHON, PASANGAN, PENJAMIN)
+        allSlikData = {};
+        if (result.data.results && Array.isArray(result.data.results)) {
+          for (const res of result.data.results) {
+            if (!res.result_id) {
+              allSlikData[res.subject_type] = res;
+              continue;
+            }
+            try {
+              const detailResp = await fetch(API_BASE + '/leads/slik-reader/result/' + res.result_id, {
+                method: 'GET',
+                headers: {
+                  'Accept': 'application/json',
+                  'X-Tenant-Key': 'tenant-demo-sukma'
+                }
+              });
+              if (detailResp.ok) {
+                const detailData = await detailResp.json();
+                allSlikData[res.subject_type] = (detailData.error === 0 && detailData.data) ? detailData.data : res;
+              } else {
+                allSlikData[res.subject_type] = res;
+              }
+            } catch (e) {
+              allSlikData[res.subject_type] = res;
+            }
+          }
+        } else {
+          allSlikData['PEMOHON'] = result.data;
+        }
+
+        // Render PEMOHON data by default (subtab "DATA PEMOHON" is active on load)
+        currentSubject = 'PEMOHON';
+        renderSlikSummaryBySubject('PEMOHON');
+      } catch (err) {
+        console.error('Error fetching SLIK data:', err);
+        const slidReportContent = document.getElementById('slikReportContent');
+        if (slidReportContent) {
+          slidReportContent.innerHTML = `
+            <div style="padding: 16px; text-align: center; color: #dc2626; background: #fee2e2; border-radius: 8px;">
+              ❌ Gagal memuat data SLIK<br>
+              <span style="font-size: 11px; color: #991b1b;">${err.message}</span>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // Subject display labels (matches "SLIK_PASANGAN", "SLIK_PENJAMIN" naming convention)
+    const SUBJECT_DISPLAY = {
+      'PEMOHON': { docLabel: 'SLIK_PEMOHON', name: 'AMIR', ktp: '3208240803850001' },
+      'PASANGAN': { docLabel: 'SLIK_PASANGAN', name: 'NURIL ACHADIYAH', ktp: '3515154910940002' },
+      'PENJAMIN': { docLabel: 'SLIK_PENJAMIN', name: 'M RAMDANI', ktp: '3275022806830010' }
+    };
+
+    // Render SLIK summary for specific subject directly into the accordion body (#slikReportContent)
+    function renderSlikSummaryBySubject(subject) {
+      const data = allSlikData[subject];
+      const contentContainer = document.getElementById('slikReportContent');
+      if (!contentContainer) return;
+
+      if (!data) {
+        contentContainer.innerHTML = `
+          <div style="padding: 16px; text-align: center; color: #94a3b8; background: #f8fafc; border-radius: 8px;">
+            Tidak ada data SLIK untuk ${subject}
+          </div>
+        `;
+        return;
+      }
+
+      const info = SUBJECT_DISPLAY[subject] || {};
+      const subjectName = info.name || data.subject?.name || data.name || subject;
+      const subjectKtp = info.ktp || data.subject?.identity_number || data.identity_number || '-';
+      const docLabel = info.docLabel || ('SLIK_' + subject);
+
+      const headerHtml = `
+        <div style="background: #f8fafc; padding: 12px; margin-bottom: 12px; border-radius: 8px; border-left: 3px solid #b91c1c;">
+          <div style="font-size: 12px; font-weight: 700; color: #0f172a;">${docLabel}</div>
+          <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+            Nama: <strong>${subjectName}</strong> &bull; No KTP: <strong>${subjectKtp}</strong>
+          </div>
+        </div>
+      `;
+
+      contentContainer.innerHTML = headerHtml;
+
+      if (data.summary || data.ringkasan) {
+        renderSlikSummary(data, contentContainer);
+      } else {
+        contentContainer.insertAdjacentHTML('beforeend', `
+          <div style="padding: 16px; text-align: center; color: #94a3b8; background: #f8fafc; border-radius: 8px;">
+            Data ringkasan SLIK belum tersedia untuk subject ini.
+          </div>
+        `);
+      }
+    }
+
+    // Render SLIK Summary with real data
+    function renderSlikSummary(data, targetContainer) {
+      const container = targetContainer || document.getElementById('slikReportContent');
+      // Handle both API response structure and direct SLIK object structure
+      let ringkasan = data.ringkasan || data.summary || {};
+      let fasilitas = data.fasilitas || [];
+
+      // Extract kol info
+      let kolText = ringkasan.kualitas_terburuk || ringkasan.kualitas || 'Kol 1';
+      let kolClass = getKolClass(kolText);
+      let utilisasi = ringkasan.utilisasi_plafon || 0;
+      let balancipersentase = (utilisasi * 100).toFixed(1);
+
+      // Generate alerts
+      let alerts = '';
+      if (ringkasan.utilisasi_plafon > 0.9) {
+        alerts += `<div style="background: #fff7ed; padding: 8px 12px; border-left: 3px solid #f59e0b; margin-bottom: 8px; border-radius: 4px;">
+          <span style="font-weight: 700; color: #b45309;">⚠️ Utilizasi Tinggi</span>
+          <div style="font-size: 11px; color: #92400e; margin-top: 2px;">Cash flow tight (${balancipersentase}%), verifikasi kemampuan bayar.</div>
+        </div>`;
+      }
+
+      // Group facilities: Lunas / Kol 1 (Lancar) are counted only (no per-item
+      // card) to keep the DOM light when the list is long (100+ items for
+      // PASANGAN/PENJAMIN). Kol 2+ facilities always get a full detail card
+      // since those are what a surveyor needs to verify in the field.
+      const lunasList = [];
+      const lancarList = [];
+      const riskyList = []; // Kol 2, 3, 4, 5
+
+      fasilitas.forEach(f => {
+        const qualNum = f.kualitas ? f.kualitas.split('-')[0].trim() : '1';
+        if ((f.kondisi || '').toLowerCase() === 'lunas') {
+          lunasList.push(f);
+        } else if (qualNum === '1') {
+          lancarList.push(f);
+        } else {
+          riskyList.push(f);
+        }
+      });
+
+      if (riskyList.length > 0) {
+        alerts += `<div style="background: #fee2e2; padding: 8px 12px; border-left: 3px solid #ef4444; margin-bottom: 8px; border-radius: 4px;">
+          <span style="font-weight: 700; color: #b91c1c;">🔴 Status Mengkhawatirkan</span>
+          <div style="font-size: 11px; color: #7f1d1d; margin-top: 2px;">${riskyList.length} fasilitas dengan kolektibilitas 2+. Perlu verifikasi detail & tanya sumber pelunasan.</div>
+        </div>`;
+      }
+
+      // Status count summary (always shown, cheap to render)
+      const statusCountsHtml = `
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0;">
+          <span style="font-size: 10px; background: #dcfce7; color: #15803d; padding: 4px 8px; border-radius: 6px; font-weight: 700;">✓ Lancar: ${lancarList.length}</span>
+          <span style="font-size: 10px; background: #fee2e2; color: #b91c1c; padding: 4px 8px; border-radius: 6px; font-weight: 700;">⚠ Perlu Perhatian: ${riskyList.length}</span>
+          <span style="font-size: 10px; background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-weight: 700;">✓ Lunas: ${lunasList.length}</span>
+        </div>
+      `;
+
+      // Full detail cards for risky facilities (always rendered - usually a small list)
+      let facilitiesHtml = statusCountsHtml;
+      riskyList.forEach(f => {
+        facilitiesHtml += renderFacilityCard(f);
+      });
+
+      // Lancar & Lunas facilities: rendered lazily on-demand via toggle button,
+      // not by default, since these lists can be 100+ items long.
+      const safeId = 'safe-facilities-' + Math.random().toString(36).slice(2, 8);
+      const safeList = [...lancarList, ...lunasList];
+      if (safeList.length > 0) {
+        window['__facilityData_' + safeId] = safeList;
+        facilitiesHtml += `
+          <div style="text-align: center; padding: 10px; font-size: 12px; color: #0284c7; cursor: pointer; border-top: 1px dashed #e2e8f0; margin-top: 8px;" onclick="toggleSafeFacilities('${safeId}', this)">
+            📋 Tampilkan ${safeList.length} fasilitas lancar/lunas lainnya
+          </div>
+          <div id="${safeId}" hidden></div>
+        `;
+      }
+
+      // Render final HTML
+      const html = `
+        <div class="slik-highlight-card">
+          <div class="slik-header-row">
+            <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Ringkasan Kewajiban Debitur</span>
+            <span class="kol-tag ${kolClass}">Terburuk: ${kolText}</span>
+          </div>
+
+          <div class="slik-metrics-grid">
+            <div class="metric-mini-card">
+              <div class="metric-mini-label">Total Baki Debet</div>
+              <div class="metric-mini-val" style="color:#0284c7;">${formatRupiah(ringkasan.baki_debet_total)}</div>
+            </div>
+            <div class="metric-mini-card">
+              <div class="metric-mini-label">Total Plafond</div>
+              <div class="metric-mini-val">${formatRupiah(ringkasan.plafon_efektif_total)}</div>
+            </div>
+            <div class="metric-mini-card">
+              <div class="metric-mini-label">Utilisasi</div>
+              <div class="metric-mini-val" style="color: ${balancipersentase > 90 ? '#dc2626' : '#0284c7'};">${balancipersentase}%</div>
+            </div>
+            <div class="metric-mini-card">
+              <div class="metric-mini-label">Est. Cicilan/Bln</div>
+              <div class="metric-mini-val">~Rp 4,5 Juta</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0;">
+            <span style="font-size: 10px; background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 4px;">Bank: ${ringkasan.kredit_bank_umum || 0}</span>
+            <span style="font-size: 10px; background: #fef9c3; color: #854d0e; padding: 2px 6px; border-radius: 4px;">BPR: ${ringkasan.kredit_bpr || 0}</span>
+            <span style="font-size: 10px; background: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px;">LP: ${ringkasan.kredit_lp || 0}</span>
+            <span style="font-size: 10px; background: #f3e8ff; color: #581c87; padding: 2px 6px; border-radius: 4px;">Lain: ${ringkasan.kredit_lainnya || 0}</span>
+          </div>
+
+          ${alerts ? '<div style="margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">' + alerts + '</div>' : ''}
+        </div>
+
+        <div style="margin-top: 14px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">
+            Fasilitas Pinjaman (${fasilitas.length})
+          </div>
+          <div id="facilitiesContainer">
+            ${facilitiesHtml}
+          </div>
+        </div>
+
+        <button onclick="downloadSlikPdf()" style="width: 100%; margin-top: 12px; padding: 10px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; color: #1d4ed8; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Unduh Ringkasan SLIK (PDF)
+        </button>
+      `;
+
+      container.insertAdjacentHTML('beforeend', html);
+    }
+
+    // Lazily render the "lancar/lunas" facilities list only when the surveyor
+    // asks to see it, keeping the initial render light for long lists.
+    function toggleSafeFacilities(safeId, triggerEl) {
+      const target = document.getElementById(safeId);
+      if (!target) return;
+
+      if (target.hidden) {
+        const list = window['__facilityData_' + safeId] || [];
+        target.innerHTML = list.map(f => renderFacilityCard(f)).join('');
+        target.hidden = false;
+        triggerEl.textContent = '📋 Sembunyikan fasilitas lancar/lunas';
+      } else {
+        target.hidden = true;
+        target.innerHTML = '';
+        const list = window['__facilityData_' + safeId] || [];
+        triggerEl.textContent = `📋 Tampilkan ${list.length} fasilitas lancar/lunas lainnya`;
+      }
+    }
+
+    // Render individual facility card
+    function renderFacilityCard(facility) {
+      const kolClass = getKolClass(facility.kualitas);
+      const statusText = facility.kualitas || 'N/A';
+
+      return `
+        <div class="facility-mini-item">
+          <div class="facility-mini-header">
+            <div>
+              <div class="facility-bank-name">${facility.pelapor || 'Lembaga Tidak Diketahui'}</div>
+              <div class="facility-type-sub">${facility.jenis_fasilitas || 'Fasilitas'}</div>
+            </div>
+            <span class="kol-tag ${kolClass}" style="font-size: 10px;">${statusText}</span>
+          </div>
+          <div class="facility-mini-numbers">
+            <span>Baki: <strong>${formatRupiah(facility.baki_debet)}</strong></span>
+            ${facility.plafon ? `<span>Plafond: <strong>${formatRupiah(facility.plafon)}</strong></span>` : ''}
+          </div>
+          <div style="font-size: 10px; color: var(--text-muted);">Update: ${facility.update || 'N/A'}</div>
+        </div>
+      `;
+    }
+
+    function downloadSlikPdf() {
+      alert('📥 Mengunduh Ringkasan SLIK OJK (PDF)...\nFile akan digunakan untuk verifikasi lapangan.');
+    }
+
+    function loadDebtor() {
+      // Reset subtab to DATA PEMOHON on load
+      document.getElementById('subtab-pemohon').classList.add('active');
+      document.getElementById('subtab-pasangan').classList.remove('active');
+      document.getElementById('subtab-penjamin').classList.remove('active');
+
+      const leadId = LEAD_MAPPING['AMIR'];
+
+      document.getElementById('headerTitle').innerText = "AMIR - D2026092201";
+      document.getElementById('debtorAvatar').innerText = "A";
+      document.getElementById('debtorName').innerText = "AMIR";
+      document.getElementById('debtorId').innerText = "D2026092201";
+      document.getElementById('debtorProduct').innerText = '"Kredit Usaha Rakyat (KUR)"';
+      document.getElementById('debtorPlafond').innerText = "Rp45,000,000";
+      document.getElementById('debtorTenor').innerText = "24 BULAN";
+
+      document.getElementById('scoreGeneric').innerText = "Medium Risk";
+      document.getElementById('scoreWorstKol').innerHTML = '<span class="kol-tag kol-tag-2">Kol 2 (DPK)</span>';
+      document.getElementById('scoreRecommendation').innerText = "⚠️ Verifikasi Data SLIK - Ada status DPK & Macet";
+
+      document.getElementById('acc-slik').classList.remove('collapsed');
+      // Fetch SLIK data
+      fetchAndRenderSlikData(leadId);
+    }
+
+    function handleContinueProcess() {
+      alert("Surveyor melanjutkan proses ke tahap Checklist Verifikasi Fisik & Foto Agunan Lapangan.");
+    }
+
+    // Initialize with AMIR data on page load
+    window.addEventListener('load', function() {
+      loadDebtor();
+    });
+  </script>
+</body>
+</html>

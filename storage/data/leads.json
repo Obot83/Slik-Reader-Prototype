@@ -1,0 +1,530 @@
+[
+    {
+        "_id": "D2026080700002",
+        "flg": {
+            "interested": true,
+            "borrower": true,
+            "autofund": false,
+            "spouse": false,
+            "guarantee": true,
+            "completed": true,
+            "persetujuan": true,
+            "checking_data": false,
+            "has_permohonan_kredit": true,
+            "menu_checking_data": true
+        },
+        "source": "DEFAULT",
+        "parent_lead_counter": 0,
+        "status": {
+            "lead": "ON PROCESS",
+            "credit_checking": "PASSED",
+            "survey": "DONE",
+            "pengajuan": null
+        },
+        "client": {
+            "id": "TOP0010002",
+            "branch_id": "CBTOP0010002202605001",
+            "branch_name": "CABANG UNIT 1"
+        },
+        "pemohon": {
+            "id": "B2026080700002",
+            "title": {
+                "id": "03",
+                "name": "Sdr"
+            },
+            "name": "AMAT FAOZI",
+            "user_type": {
+                "id": "1",
+                "name": "Perseorang"
+            },
+            "prefix_number": "62",
+            "phone_number": "0827215184848",
+            "pekerjaan": {
+                "id": "S0158",
+                "name": "Pedagang"
+            },
+            "identity_type": "KTP",
+            "ktp": {
+                "identity_number": "3329091003780012",
+                "birth_date": {
+                    "$date": "1978-03-09T17:00:00.000Z"
+                },
+                "birth_place": "PEKALONGAN",
+                "gender": {
+                    "id": "L",
+                    "name": "Laki-laki"
+                },
+                "address": "DUSUN KAUMAN",
+                "subdistricts": {
+                    "id": "33.26.09.2009",
+                    "name": "Kesesi"
+                },
+                "postal_code": 51162,
+                "districts": "Kesesi",
+                "city": "Kabupaten Pekalongan",
+                "province": "Jawa Tengah",
+                "rt": "002",
+                "rw": "005",
+                "religion": {
+                    "id": "IS",
+                    "name": "Islam"
+                },
+                "marital": {
+                    "id": "SK",
+                    "name": "Kawin",
+                    "bank_id": "M"
+                },
+                "nationality": {
+                    "id": "WNI",
+                    "name": "Warga Negara Indonesia"
+                },
+                "validity_period": ""
+            },
+            "mother_name": "Iis",
+            "flg_sesuai_ktp": true,
+            "domisili": {
+                "address": "DUSUN KAUMAN",
+                "subdistricts": {
+                    "id": "33.26.09.2009",
+                    "name": "Kesesi"
+                },
+                "postal_code": 51162,
+                "districts": "Kesesi",
+                "city": "Kabupaten Pekalongan",
+                "province": "Jawa Tengah",
+                "rt": "002",
+                "rw": "005"
+            },
+            "create_user": "dedisupriadi",
+            "create_dtm": {
+                "$date": "2026-08-07T01:42:46.000Z"
+            },
+            "update_user": null,
+            "update_dtm": null
+        },
+        "pengajuan": {
+            "create_dtm": {
+                "$date": "2026-08-07T01:43:00.000Z"
+            },
+            "create_user": "dedisupriadi",
+            "loan_purpose": {
+                "group": "tujuan_pinjaman",
+                "id": "S0010",
+                "name": "Modal Usaha"
+            },
+            "product": {
+                "tenor_dtl": [
+                    {
+                        "id": "6M",
+                        "text": "6 BULAN"
+                    },
+                    {
+                        "id": "10M",
+                        "text": "10 BULAN"
+                    },
+                    {
+                        "id": "12M",
+                        "text": "12 BULAN"
+                    },
+                    {
+                        "id": "18M",
+                        "text": "18 BULAN"
+                    },
+                    {
+                        "id": "24M",
+                        "text": "24 BULAN"
+                    },
+                    {
+                        "id": "30M",
+                        "text": "30 BULAN"
+                    },
+                    {
+                        "id": "36M",
+                        "text": "36 BULAN"
+                    },
+                    {
+                        "id": "42M",
+                        "text": "42 BULAN"
+                    },
+                    {
+                        "id": "48M",
+                        "text": "48 BULAN"
+                    },
+                    {
+                        "id": "50M",
+                        "text": "50 BULAN"
+                    },
+                    {
+                        "id": "60M",
+                        "text": "60 BULAN"
+                    }
+                ],
+                "plafon_dtl": [],
+                "submission_loan_min": "1000000",
+                "product_name": "Kredit Investasi Kecil (KIK)",
+                "plafon_desc": "Mulai dari 1 Juta",
+                "tenor_type": "BULANAN",
+                "certificates_name": [
+                    "BPKB"
+                ],
+                "id": "002",
+                "tenors": [
+                    6,
+                    10,
+                    12,
+                    18,
+                    24,
+                    30,
+                    36,
+                    42,
+                    48,
+                    50,
+                    60
+                ],
+                "submission_loan_max": "1000000000"
+            },
+            "soa": {
+                "id": "08",
+                "name": "IKLAN BANNER",
+                "partner_name": null
+            },
+            "submission": {
+                "loan": {
+                    "$numberDecimal": "1000000"
+                },
+                "tenor": 42,
+                "tenor_type_id": "42M",
+                "tenor_type_name": "BULAN"
+            },
+            "update_dtm": null,
+            "update_user": null
+        },
+        "spouse": {
+            "status": {
+                "credit_checking": "ON PROGRESS"
+            }
+        },
+        "lec": [
+            {
+                "lec_id": "334ac79a-7c1b-4a1b-a1e9-c7402c4f46ce",
+                "is_guarantor": false,
+                "name": "Nama",
+                "phone_number": "0872346154546",
+                "relation": "ORANG TUA",
+                "path": null,
+                "create_user": "dedisupriadi",
+                "create_dtm": {
+                    "$date": "2026-08-07T01:43:08.000Z"
+                },
+                "update_user": null,
+                "update_dtm": null
+            }
+        ],
+        "agunan": [],
+        "scoring_grade": "tinggi",
+        "rekomendasi": {
+            "sales": null,
+            "surveyor": {
+                "status": "REKOMENDASI",
+                "submission": {
+                    "loan": {
+                        "$numberDecimal": "1000000"
+                    },
+                    "tenor": 42,
+                    "tenor_type_id": "42M",
+                    "tenor_type_name": "BULAN"
+                },
+                "keterangan": "Condition  : oke\n\nCharacter  : ini juga oke\n\nCapital    : oke juga\n\nCapacity   : okokk aja\n\nCollateral : okeee",
+                "by": "dedisupriadi_sur"
+            },
+            "credit_analyst": {
+                "status": "REKOMENDASI",
+                "submission": {
+                    "loan": {
+                        "$numberDecimal": "1000000"
+                    },
+                    "tenor": 42,
+                    "tenor_type_id": "42M",
+                    "tenor_type_name": "BULAN"
+                },
+                "keterangan": "lanjut",
+                "rekomendasi": null,
+                "by": "asepsuganda@gmail.com"
+            },
+            "loan_detail": {
+                "no_surat": "D2026080700002",
+                "tanggal_cetak_surat": "2026-08-07",
+                "pokok_pinjaman": 1000000,
+                "suku_bunga": 1.7,
+                "jangka_waktu": "42 BULAN",
+                "angsuran": 40809,
+                "blokir_tabungan": 20000,
+                "provisi": 3,
+                "denda": 2,
+                "biaya_asuransi": 30000,
+                "biaya_cek_sertfikat": 150000,
+                "biaya_apht": 10000,
+                "biaya_skm_ht": 12000,
+                "biaya_fiducia": 13000,
+                "biaya_legasisasi": 14000,
+                "waarmeking": 42000
+            }
+        },
+        "keterangan": {
+            "sales": "lanjut",
+            "surveyor": {
+                "credit_checking": null
+            }
+        },
+        "survey_dtm": {
+            "$date": "2026-08-07T01:59:49.000Z"
+        },
+        "reff": null,
+        "credit_checking": {
+            "subbmitted_by": "dedisupriadi",
+            "submitted_dtm": {
+                "$date": "2026-08-07T01:44:18.000Z"
+            },
+            "done_by": "asepsuganda@gmail.com",
+            "done_dtm": {
+                "$date": "2026-08-07T01:44:55.000Z"
+            },
+            "checked_by": "dedisupriadi_sur",
+            "checked_dtm": {
+                "$date": "2026-08-07T01:46:36.000Z"
+            }
+        },
+        "assign": {
+            "to_surveyor": "dedisupriadi_sur"
+        },
+        "create_user": "dedisupriadi",
+        "create_dtm": {
+            "$date": "2026-08-07T01:42:46.000Z"
+        },
+        "update_user": "asepsuganda@gmail.com",
+        "update_dtm": {
+            "$date": "2026-08-07T02:02:39.000Z"
+        },
+        "occupation": [
+            {
+                "id": "62557a3d-99dc-4313-aa55-13fad6747e94",
+                "flag": "pemohon",
+                "type": "Usaha",
+                "selama": "12",
+                "nama_usaha": "Nama",
+                "nama_perusahaan": null,
+                "alamat_perusahaan": "ALAMAT",
+                "pengeluaran_usaha": "1000000",
+                "tenaga_kerja": "200000",
+                "transportasi": "300000",
+                "lainnya": "400000",
+                "total_pengeluaran": "1900000",
+                "subdistricts": {
+                    "id": "11.01.01.2001",
+                    "name": "Keude Bakongan"
+                },
+                "postal_code": 23773,
+                "districts": "Bakongan",
+                "city": "Kabupaten Aceh Selatan",
+                "province": "Aceh",
+                "rt": "009",
+                "rw": "004",
+                "no_telp": "0872246194848",
+                "income": 15000000,
+                "sektor": {
+                    "id": "12",
+                    "name": "Sektor Retail dan Perdagangan"
+                },
+                "sektor_lain": null,
+                "path": "private/D2026080700002/FOTO_USAHA_6a75386095f64.jpg",
+                "create_user": "dedisupriadi",
+                "create_dtm": {
+                    "$date": "2026-08-07T01:44:00.000Z"
+                },
+                "update_user": null,
+                "update_dtm": null
+            }
+        ],
+        "credit_checking_type": "manual",
+        "total_cbi_scoring": 0,
+        "total_scoring": 384
+    },
+    {
+        "_id": "D2026092201",
+        "flg": {
+            "interested": true,
+            "borrower": true,
+            "autofund": false,
+            "spouse": false,
+            "guarantee": true,
+            "completed": true,
+            "persetujuan": true,
+            "checking_data": false,
+            "has_permohonan_kredit": true,
+            "menu_checking_data": true
+        },
+        "source": "SLIK_IMPORT",
+        "parent_lead_counter": 0,
+        "status": {
+            "lead": "RESPONSE",
+            "credit_checking": "ON PROGRESS",
+            "survey": "DONE",
+            "pengajuan": null
+        },
+        "client": {
+            "id": "TOP0010002",
+            "branch_id": "CBTOP0010002202605001",
+            "branch_name": "CABANG UNIT 1"
+        },
+        "pemohon": {
+            "id": "B2026092201",
+            "title": {
+                "id": "03",
+                "name": "Sdr"
+            },
+            "name": "AMIR",
+            "user_type": {
+                "id": "1",
+                "name": "Perseorang"
+            },
+            "prefix_number": "62",
+            "phone_number": "081234500001",
+            "pekerjaan": {
+                "id": "S0158",
+                "name": "Pedagang"
+            },
+            "identity_type": "KTP",
+            "ktp": {
+                "identity_number": "3208240803850001",
+                "birth_date": {
+                    "$date": "1985-03-08T17:00:00.000Z"
+                },
+                "birth_place": "KUNINGAN",
+                "gender": {
+                    "id": "L",
+                    "name": "Laki-laki"
+                },
+                "address": "DUSUN JAWA BARATCILEUYACIMAHIKab. Tasikmalaya45582Indonesia Petani NA Bukan Lapangan Usaha LainnyaS-3",
+                "subdistricts": {
+                    "id": "33.26.09.2009",
+                    "name": "Kesesi"
+                },
+                "postal_code": 51162,
+                "districts": "Kesesi",
+                "city": "Kabupaten Pekalongan",
+                "province": "Jawa Tengah",
+                "rt": "002",
+                "rw": "005",
+                "religion": {
+                    "id": "IS",
+                    "name": "Islam"
+                },
+                "marital": {
+                    "id": "SK",
+                    "name": "Kawin",
+                    "bank_id": "M"
+                },
+                "nationality": {
+                    "id": "WNI",
+                    "name": "Warga Negara Indonesia"
+                },
+                "validity_period": ""
+            },
+            "mother_name": "Siti",
+            "flg_sesuai_ktp": true,
+            "domisili": {
+                "address": "DUSUN KAUMAN",
+                "subdistricts": {
+                    "id": "33.26.09.2009",
+                    "name": "Kesesi"
+                },
+                "postal_code": 51162,
+                "districts": "Kesesi",
+                "city": "Kabupaten Pekalongan",
+                "province": "Jawa Tengah",
+                "rt": "002",
+                "rw": "005"
+            },
+            "create_user": "dedisupriadi",
+            "create_dtm": {
+                "$date": "2026-08-07T01:42:46.000Z"
+            },
+            "update_user": null,
+            "update_dtm": null
+        },
+        "spouse": {
+            "name": "NURIL ACHADIYAH",
+            "identity_number": "3515154910940002",
+            "status": {
+                "credit_checking": "ON PROGRESS"
+            }
+        },
+        "lec": [
+            {
+                "name": "M RAMDANI",
+                "identity_number": "3275022806830010",
+                "is_guarantor": false,
+                "phone_number": "",
+                "relation": "PENJAMIN",
+                "path": null,
+                "create_user": "dedisupriadi",
+                "create_dtm": {
+                    "$date": "2026-09-23T01:57:55+02:00"
+                },
+                "update_user": null,
+                "update_dtm": null
+            }
+        ],
+        "pengajuan": {
+            "create_dtm": {
+                "$date": "2026-08-07T01:43:00.000Z"
+            },
+            "create_user": "dedisupriadi",
+            "loan_purpose": {
+                "group": "tujuan_pinjaman",
+                "id": "S0010",
+                "name": "Modal Usaha"
+            },
+            "product": {
+                "id": "002",
+                "name": "Kredit Usaha Rakyat (KUR)"
+            },
+            "submission": {
+                "loan": {
+                    "$numberDecimal": "45000000"
+                },
+                "tenor": 24,
+                "tenor_type_id": "24M",
+                "tenor_type_name": "BULAN"
+            }
+        },
+        "credit_checking": {
+            "subbmitted_by": "dedisupriadi",
+            "submitted_dtm": {
+                "$date": "2026-09-22T00:53:44.000Z"
+            },
+            "done_by": null,
+            "done_dtm": null,
+            "checked_by": null,
+            "checked_dtm": null,
+            "slik_reader": {
+                "pemohon_result_id": "SRI2026092359387",
+                "status": "ON PROCESS",
+                "pasangan_result_id": "SRI2026092343271",
+                "penjamin_result_id": "SRI2026092368708"
+            }
+        },
+        "assign": {
+            "to_surveyor": "dedisupriadi_sur"
+        },
+        "create_user": "dedisupriadi",
+        "create_dtm": {
+            "$date": "2026-09-22T00:53:44.000Z"
+        },
+        "update_user": null,
+        "update_dtm": "2026-09-23T05:24:40+02:00",
+        "no_slik_pemohon": false,
+        "no_slik_pasangan": false,
+        "no_slik_penjamin": false
+    }
+]

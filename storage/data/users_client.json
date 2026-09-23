@@ -1,0 +1,233 @@
+[{
+  "_id": {
+    "$oid": "69c3480209c75206e80fca1c"
+  },
+  "username": "cbssukma",
+  "name": "cbs_sukma",
+  "password": "$2y$10$l5xw78xktEluTMEyGQso1Os3R2B2AZ1Xo3W7Y1dd5TeaP963VE8ke",
+  "email": "cbs_bank_sukma@teknologioperator.com",
+  "phone_number": "000000000000",
+  "group_user": "root",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "CBTOP0010002202604002",
+    "name": "BSD - Tangerang Selatan"
+  },
+  "profile": {
+    "nip": "000000",
+    "jabatan": "SYSTEM"
+  },
+  "flg": {
+    "aktif": "CBS"
+  },
+  "create_user": "01triana01@gmail.com",
+  "create_dtm": {
+    "$date": "2026-03-25T02:27:14.000Z"
+  },
+  "update_user": null,
+  "update_dtm": null
+},
+{
+  "_id": {
+    "$oid": "6a0fc5b5449c14145d0edeaf"
+  },
+  "username": "diansumarlan",
+  "name": "Dian Sumarlan",
+  "password": "$2y$10$Kcwwrx2muu.EvOF3AEJzceo2YU0f7HX8qqDImqL8HdTEAoYgGwiAa",
+  "email": "diansumarlan@gmail.com",
+  "phone_number": "0842749324334",
+  "group_user": "Kepala-Cabang-Baru",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "CBTOP0010002202604002",
+    "name": "CABANG UNIT 2"
+  },
+  "profile": {
+    "nip": "2984982434",
+    "jabatan": "Kepala Unit 2"
+  },
+  "flg": {
+    "aktif": 1
+  },
+  "create_user": "trianaronatama@gmail.com",
+  "create_dtm": {
+    "$date": "2026-05-22T02:55:49.000Z"
+  },
+  "update_user": "admin@bprsukma.com",
+  "update_dtm": {
+    "$date": "2026-07-28T10:30:59.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a0fc4ed68f44fe3b00c4591"
+  },
+  "username": "emhirasmanalu",
+  "name": "Emhiras Manalu",
+  "password": "$2y$10$Kcwwrx2muu.EvOF3AEJzceo2YU0f7HX8qqDImqL8HdTEAoYgGwiAa",
+  "email": "emhirasmanalu@gmail.com",
+  "phone_number": "091518521515",
+  "group_user": "Kepala-Cabang-Baru",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "CBTOP0010002202605003",
+    "name": "CABANG UNIT 3"
+  },
+  "profile": {
+    "nip": "1215125125",
+    "jabatan": "Kepala Unit 3"
+  },
+  "flg": {
+    "aktif": 1
+  },
+  "create_user": "cbs_bank_sukma@teknologioperator.com",
+  "create_dtm": {
+    "$date": "2026-05-22T02:52:29.000Z"
+  },
+  "update_user": null,
+  "update_dtm": null
+},
+{
+  "_id": {
+    "$oid": "69dc66e3dc3f50860207f934"
+  },
+  "username": "asepsuganda",
+  "name": "Asep Suganda",
+  "password": "$2a$12$o89I.0oePntkF/3Y/9MbGelcU8eunagVQBZGdcq6227WGqxHsrklu",
+  "email": "asepsuganda@gmail.com",
+  "phone_number": "08129293333",
+  "group_user": "Kepala-Cabang",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "CBTOP0010002202605001",
+    "name": "CABANG UNIT 1"
+  },
+  "profile": {
+    "nip": "25100007",
+    "jabatan": "Kepala Unit 1"
+  },
+  "flg": {
+    "aktif": 1
+  },
+  "create_user": "trianaronatama@gmail.com",
+  "create_dtm": {
+    "$date": "2026-04-13T03:45:39.000Z"
+  },
+  "update_user": null,
+  "update_dtm": null
+},
+{
+  "_id": {
+    "$oid": "6a687da055566e7aae04b869"
+  },
+  "username": "admin",
+  "name": "Aria Permana",
+  "password": "$2y$10$Kcwwrx2muu.EvOF3AEJzceo2YU0f7HX8qqDImqL8HdTEAoYgGwiAa",
+  "email": "admin@bprsukma.com",
+  "phone_number": "08665285235",
+  "group_user": "Super-Admin",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "TOP0010002",
+    "name": "KANTOR PUSAT"
+  },
+  "profile": {
+    "nip": "023820238068",
+    "jabatan": "Administrator"
+  },
+  "flg": {
+    "aktif": 1
+  },
+  "create_user": "trianaronatama@gmail.com",
+  "create_dtm": {
+    "$date": "2026-07-28T10:00:00.000Z"
+  },
+  "update_user": null,
+  "update_dtm": null
+},
+{
+  "_id": {
+    "$oid": "6a94ffd90e749cd3db03c4d7"
+  },
+  "username": "admin_internal",
+  "name": "Admin Internal",
+  "password": "$2y$10$b8CKFRqjkUKTzlSQiBLctu4kR2tl7PY0gZ4YHzO7hAN27zBl5Y7oO",
+  "email": "admininternal@gmail.com",
+  "phone_number": "0817321883123",
+  "group_user": "Coba-Coba-menu",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "CBTOP0010002202604002",
+    "name": "BSD - Tangerang Selatan"
+  },
+  "profile": {
+    "nip": "287359324234",
+    "jabatan": "Administrator"
+  },
+  "flg": {
+    "aktif": 1
+  },
+  "create_user": "trianaronatama@gmail.com",
+  "create_dtm": {
+    "$date": "2026-08-31T04:15:21.000Z"
+  },
+  "update_user": null,
+  "update_dtm": null
+},
+{
+  "_id": {
+    "$oid": "65e578cbf76aa876f4bf1eb8"
+  },
+  "username": "sukma",
+  "name": "BPR Sukma Hitamajaya",
+  "password": "$2y$10$b8CKFRqjkUKTzlSQiBLctu4kR2tl7PY0gZ4YHzO7hAN27zBl5Y7oO",
+  "email": "trianaronatama@gmail.com",
+  "phone_number": "081318544457",
+  "group_user": "Super-Admin-Cabang",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "CBTOP0010002202604002",
+    "name": "BSD - Tangerang Selatan"
+  },
+  "profile": {
+    "nip": "1271174806950001",
+    "jabatan": "Direktur Utama"
+  },
+  "create_user": "System",
+  "create_dtm": {
+    "$date": "2024-02-28T03:05:49.000Z"
+  },
+  "update_user": "teknologioperatorprima@gmail.com",
+  "update_dtm": {
+    "$date": "2025-05-19T07:44:27.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6aa25a37614f8f0c180a7b77"
+  },
+  "username": "Laney20",
+  "name": "Darrin Bruen",
+  "password": "$2y$10$3qS7iizYM5GJQVbp/j.OVeNHZRhs5mLL3WbIEPobglHTAIBU8A1B6",
+  "email": "Lambert78@gmail.com",
+  "phone_number": "081372187321",
+  "group_user": "Kepala-Cabang",
+  "client_id": "TOP0010002",
+  "branch": {
+    "id": "001",
+    "name": "CABANG RTB"
+  },
+  "profile": {
+    "nip": "12839213213213",
+    "jabatan": "Global Interactions Executive"
+  },
+  "flg": {
+    "aktif": 1
+  },
+  "create_user": "admininternal@gmail.com",
+  "create_dtm": {
+    "$date": "2026-09-10T07:20:23.000Z"
+  },
+  "update_user": null,
+  "update_dtm": null
+}]

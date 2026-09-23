@@ -1,0 +1,10 @@
+# Dependencies (installed via `composer install` during deploy build)
+/vendor/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# PHP error logs (if any get created locally)
+*.log
+error_log
