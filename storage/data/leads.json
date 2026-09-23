@@ -508,7 +508,7 @@
             "checked_by": null,
             "checked_dtm": null,
             "slik_reader": {
-                "pemohon_result_id": "SRI2026092359387",
+                "pemohon_result_id": "SRI2026092311761",
                 "status": "ON PROCESS",
                 "pasangan_result_id": "SRI2026092343271",
                 "penjamin_result_id": "SRI2026092368708"
@@ -522,7 +522,7 @@
             "$date": "2026-09-22T00:53:44.000Z"
         },
         "update_user": null,
-        "update_dtm": "2026-09-23T05:24:40+02:00",
+        "update_dtm": "2026-09-23T12:57:05+02:00",
         "no_slik_pemohon": false,
         "no_slik_pasangan": false,
         "no_slik_penjamin": false

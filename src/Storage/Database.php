@@ -11,13 +11,7 @@ class Database {
     private ?PDO $pdo = null;
 
     private function __construct() {
-        // Check every source Vercel (or any host) might inject the connection
-        // string through — different SAPIs/runtimes populate these differently.
-        $databaseUrl = getenv('DATABASE_URL')
-            ?: ($_ENV['DATABASE_URL'] ?? '')
-            ?: ($_SERVER['DATABASE_URL'] ?? '')
-            ?: (getenv('POSTGRES_URL') ?: '')
-            ?: ($_ENV['POSTGRES_URL'] ?? '');
+        $databaseUrl = self::findDatabaseUrl();
 
         if (!empty($databaseUrl)) {
             // Production mode (e.g. Vercel): real Postgres (Neon) over PDO.
@@ -34,6 +28,50 @@ class Database {
             }
             $this->initializeCollections();
         }
+    }
+
+    /**
+     * Locate a Postgres connection string regardless of the exact env var
+     * name a hosting platform decides to use. Vercel Marketplace storage
+     * integrations prefix variable names with the project name (observed
+     * in production: "slik_reader_POSTGRES_POSTGRES_URL", not the plain
+     * "DATABASE_URL"/"POSTGRES_URL" documented in most guides) — matching
+     * by exact name is too fragile, so this scans for any variable whose
+     * name ENDS WITH a known suffix instead.
+     */
+    private static function findDatabaseUrl(): string {
+        // Exact-name fast path (works for most other hosts/conventions).
+        foreach (['DATABASE_URL', 'POSTGRES_URL', 'POSTGRES_PRISMA_URL', 'PRISMA_DATABASE_URL'] as $name) {
+            $val = getenv($name) ?: ($_ENV[$name] ?? '') ?: ($_SERVER[$name] ?? '');
+            if (!empty($val)) {
+                return $val;
+            }
+        }
+
+        // Suffix-match fallback: scan every visible env var for a name that
+        // ends with one of these suffixes, preferring a pooled connection
+        // and avoiding "_UNPOOLED"/"_NO_SSL" variants when a plain one exists.
+        $suffixes = ['_POSTGRES_URL', '_DATABASE_URL', '_PRISMA_URL'];
+        $candidates = [];
+        foreach ($_ENV as $key => $val) {
+            if (empty($val) || !is_string($val)) {
+                continue;
+            }
+            foreach ($suffixes as $suffix) {
+                if (str_ends_with($key, $suffix)) {
+                    $candidates[$key] = $val;
+                }
+            }
+        }
+
+        if (empty($candidates)) {
+            return '';
+        }
+
+        // Prefer the shortest matching key name (tends to be the primary/
+        // pooled variant rather than a "_UNPOOLED"/"_NON_POOLING" sibling).
+        uksort($candidates, fn($a, $b) => strlen($a) <=> strlen($b));
+        return reset($candidates);
     }
 
     public static function getInstance(): Database {

@@ -3709,7 +3709,7 @@
         "updated_dtm": "2026-09-23 05:14:30"
     },
     {
-        "_id": "SRI2026092359387",
+        "_id": "SRI2026092311761",
         "lead_id": "D2026092201",
         "subject": {
             "type": "PEMOHON",
@@ -3717,9 +3717,9 @@
             "name": "AMIR"
         },
         "source_file": {
-            "file_id": "SR2026092375165",
+            "file_id": "SR2026092356577",
             "name": "SLIK_PEMOHON",
-            "path": "private/D2026092201/slik_6ab34676df682.pdf"
+            "path": "private/D2026092201/slik_6ab3b080101ff.pdf"
         },
         "status": "APPROVED",
         "parser": {
@@ -3973,14 +3973,14 @@
         "approval": {
             "status": "APPROVED",
             "approved_by": "USER_REVIEWER",
-            "approved_dtm": "2026-09-23 05:25:08",
+            "approved_dtm": "2026-09-23 12:57:08",
             "rejected_by": null,
             "rejected_dtm": null,
             "reason_code": null,
             "note": "Disetujui dari preview modal"
         },
         "created_by": "USER_OPERATOR",
-        "created_dtm": "2026-09-23 05:24:40",
-        "updated_dtm": "2026-09-23 05:25:08"
+        "created_dtm": "2026-09-23 12:57:05",
+        "updated_dtm": "2026-09-23 12:57:08"
     }
 ]
