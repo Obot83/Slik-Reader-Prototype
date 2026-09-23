@@ -11,7 +11,13 @@ class Database {
     private ?PDO $pdo = null;
 
     private function __construct() {
-        $databaseUrl = getenv('DATABASE_URL') ?: ($_ENV['DATABASE_URL'] ?? '');
+        // Check every source Vercel (or any host) might inject the connection
+        // string through — different SAPIs/runtimes populate these differently.
+        $databaseUrl = getenv('DATABASE_URL')
+            ?: ($_ENV['DATABASE_URL'] ?? '')
+            ?: ($_SERVER['DATABASE_URL'] ?? '')
+            ?: (getenv('POSTGRES_URL') ?: '')
+            ?: ($_ENV['POSTGRES_URL'] ?? '');
 
         if (!empty($databaseUrl)) {
             // Production mode (e.g. Vercel): real Postgres (Neon) over PDO.
