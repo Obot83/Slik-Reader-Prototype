@@ -1,5 +1,36 @@
 <?php
 
+// Convert any uncaught PHP warning/notice/error into the standard JSON error
+// envelope instead of letting raw HTML (display_errors output) leak into an
+// API response and break client-side JSON.parse(). The actual message is
+// included in the response so the real root cause is visible to the caller
+// instead of being silently swallowed or truncated.
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return false;
+    }
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
+set_exception_handler(function (\Throwable $e) {
+    if (!headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+    }
+    echo json_encode([
+        'error' => 1,
+        'error_code' => 5999,
+        'message' => 'Internal Server Error: ' . $e->getMessage() . ' (in ' . basename($e->getFile()) . ':' . $e->getLine() . ')',
+        'response_time' => date('Y-m-d H:i:s'),
+        'data' => (object)[]
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    exit;
+});
+
 require __DIR__ . '/../vendor/autoload.php';
 
 // Autoloader for App namespace
